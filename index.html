@@ -1,8 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" translate="no">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="google" content="notranslate">
     <title>Pahli AI - Gateway to Innovation</title>
     <style>
         * {
@@ -128,43 +129,49 @@
         }
 
         .link-top {
-            top: 50px;
+            top: 30px;
             left: 50%;
             transform: translateX(-50%);
         }
 
-        .link-right {
-            right: 50px;
-            top: 50%;
-            transform: translateY(-50%);
+        .link-top-right {
+            top: 120px;
+            right: 60px;
         }
 
-        .link-bottom {
-            bottom: 50px;
-            left: 50%;
-            transform: translateX(-50%);
+        .link-bottom-right {
+            bottom: 120px;
+            right: 60px;
         }
 
-        .link-left {
-            left: 50px;
-            top: 50%;
-            transform: translateY(-50%);
+        .link-bottom-left {
+            bottom: 120px;
+            left: 60px;
+        }
+
+        .link-top-left {
+            top: 120px;
+            left: 60px;
         }
 
         .website-link:hover.link-top {
             transform: translateX(-50%) translateY(-10px) scale(1.1);
         }
 
-        .website-link:hover.link-right {
-            transform: translateY(-50%) translateX(10px) scale(1.1);
+        .website-link:hover.link-top-right {
+            transform: translateX(10px) translateY(-10px) scale(1.1);
         }
 
-        .website-link:hover.link-bottom {
-            transform: translateX(-50%) translateY(10px) scale(1.1);
+        .website-link:hover.link-bottom-right {
+            transform: translateX(10px) translateY(10px) scale(1.1);
         }
 
-        .website-link:hover.link-left {
-            transform: translateY(-50%) translateX(-10px) scale(1.1);
+        .website-link:hover.link-bottom-left {
+            transform: translateX(-10px) translateY(10px) scale(1.1);
+        }
+
+        .website-link:hover.link-top-left {
+            transform: translateX(-10px) translateY(-10px) scale(1.1);
         }
 
         .title {
@@ -235,20 +242,31 @@
                 margin-bottom: 5px;
             }
 
-            .link-top, .link-bottom {
+            .link-top {
+                top: 20px;
                 left: 50%;
                 transform: translateX(-50%);
             }
 
-            .link-right, .link-left {
-                top: 50%;
-                transform: translateY(-50%);
+            .link-top-right {
+                top: 80px;
+                right: 40px;
             }
 
-            .link-top { top: 30px; }
-            .link-right { right: 30px; }
-            .link-bottom { bottom: 30px; }
-            .link-left { left: 30px; }
+            .link-bottom-right {
+                bottom: 80px;
+                right: 40px;
+            }
+
+            .link-bottom-left {
+                bottom: 80px;
+                left: 40px;
+            }
+
+            .link-top-left {
+                top: 80px;
+                left: 40px;
+            }
         }
     </style>
 </head>
@@ -265,17 +283,22 @@
             <small>Invoices2Excel</small>
         </a>
 
-        <a href="https://pahliai.github.io/TourPloeg2025/" class="website-link link-right" target="_blank">
+        <a href="https://pahliai.github.io/TourPloeg2025/" class="website-link link-top-right" target="_blank">
             <span>Tourploeg</span>
             <small>Tour de France poule</small>
         </a>
 
-        <a href="https://pahliai.github.io/Visuate/" class="website-link link-bottom" target="_blank">
+        <a href="https://pahliai.github.io/Visuate/" class="website-link link-bottom-right" target="_blank">
             <span>Visuate++</span>
             <small>Visualize your ESPP portfolio</small>
         </a>
 
-        <a href="https://pahliai.github.io/TFB/" class="website-link link-left tfb" target="_blank">
+        <a href="https://pahliai.github.io/TemplateXL/" class="website-link link-bottom-left" target="_blank">
+            <span>TemplateXL</span>
+            <small>Excel template manager</small>
+        </a>
+
+        <a href="https://pahliai.github.io/TFB/" class="website-link link-top-left tfb" target="_blank">
             <span>TFB</span>
             <small>ToolFlowBuilder</small>
         </a>
