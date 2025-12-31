@@ -565,28 +565,38 @@
 
         let currentFeatured = 'mila';
 
-        function swapFeatured(appKey) {
+        function swapFeatured(appKey, clickedCard) {
             if (appKey === currentFeatured) {
                 window.open(featuredData[appKey].url, '_blank');
                 return;
             }
 
-            const data = featuredData[appKey];
-            const featuredCard = document.querySelector('.featured-card');
+            // Get data for the clicked app and the current featured app
+            const newFeaturedData = featuredData[appKey];
+            const oldFeaturedData = featuredData[currentFeatured];
 
-            featuredCard.href = data.url;
-            featuredCard.querySelector('.featured-logo img').src = data.logo;
+            // Update the featured card
+            const featuredCard = document.querySelector('.featured-card');
+            featuredCard.href = newFeaturedData.url;
+            featuredCard.querySelector('.featured-logo img').src = newFeaturedData.logo;
 
             const content = featuredCard.querySelector('.featured-content');
-            const tag = data.tag ? `<div class="tag">${data.tag}</div>` : '';
+            const tag = newFeaturedData.tag ? `<div class="tag">${newFeaturedData.tag}</div>` : '';
             content.innerHTML = `
                 ${tag}
-                <div class="featured-title">${data.title}</div>
+                <div class="featured-title">${newFeaturedData.title}</div>
                 <ul class="features">
-                    ${data.features.map(f => `<li>${f}</li>`).join('')}
+                    ${newFeaturedData.features.map(f => `<li>${f}</li>`).join('')}
                 </ul>
             `;
 
+            // Update the clicked grid card with the old featured app
+            clickedCard.href = oldFeaturedData.url;
+            clickedCard.dataset.app = currentFeatured;
+            clickedCard.querySelector('img').src = oldFeaturedData.logo;
+            clickedCard.querySelector('img').alt = oldFeaturedData.title;
+
+            // Update current featured tracker
             currentFeatured = appKey;
         }
 
@@ -603,7 +613,7 @@
             document.querySelectorAll('.grid-card').forEach(card => {
                 card.addEventListener('click', (e) => {
                     e.preventDefault();
-                    swapFeatured(card.dataset.app);
+                    swapFeatured(card.dataset.app, card);
                 });
             });
 
