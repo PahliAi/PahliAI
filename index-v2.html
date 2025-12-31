@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="en" translate="no">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="google" content="notranslate">
+    <title>Pahli AI - Gateway to Innovation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #0a0a0f;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            color: white;
+            overflow-x: hidden;
+            overflow-y: auto;
+        }
+
+        /* Background effects */
+        .gradient-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, #0a0a0f, #1a1a2e, #16213e, #0f3460);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+            z-index: -2;
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        #particlesCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        /* Main layout */
+        .main-container {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Logo section - fixed */
+        .logo-section {
+            padding: 20px;
+            text-align: center;
+        }
+
+        .logo {
+            max-width: 400px;
+            max-height: 150px;
+            filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.3));
+        }
+
+        /* Featured card section - auto height */
+        .featured-section {
+            padding: 0 20px 20px;
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        .featured-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 25px;
+            -webkit-backdrop-filter: blur(15px);
+            backdrop-filter: blur(15px);
+            display: flex;
+            overflow: hidden;
+            text-decoration: none;
+            color: white;
+            box-shadow: 0 20px 60px rgba(102, 126, 234, 0.3);
+        }
+
+        .featured-card:hover {
+            box-shadow: 0 30px 60px rgba(102, 126, 234, 0.5);
+        }
+
+        .featured-logo {
+            width: 25%;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.3), rgba(118, 75, 162, 0.3));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 30px 20px;
+        }
+
+        .featured-logo img {
+            max-width: 100%;
+            max-height: 150px;
+        }
+
+        .featured-content {
+            width: 75%;
+            padding: 30px;
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 12px;
+            background: linear-gradient(135deg, #34a853, #4285f4);
+        }
+
+        .featured-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            background: linear-gradient(45deg, #fff, #667eea);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.3;
+        }
+
+        .features {
+            list-style: none;
+        }
+
+        .features li {
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.5;
+            padding-left: 20px;
+            position: relative;
+            margin-bottom: 8px;
+        }
+
+        .features li::before {
+            content: '▸';
+            position: absolute;
+            left: 0;
+            color: #667eea;
+            font-weight: bold;
+        }
+
+        /* Grid section - scrollable */
+        .grid-section {
+            flex: 1;
+            overflow-y: auto;
+            overflow-x: hidden;
+            padding: 20px 20px 20px;
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        @media (min-width: 1400px) {
+            .cards-grid {
+                grid-template-columns: repeat(6, 1fr);
+            }
+        }
+
+        @media (max-width: 1024px) {
+            .cards-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        .grid-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 25px;
+            -webkit-backdrop-filter: blur(15px);
+            backdrop-filter: blur(15px);
+            height: 180px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            color: white;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .grid-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 25px;
+            padding: 2px;
+            background: linear-gradient(45deg, #667eea, #764ba2, #f093fb, #f5576c);
+            background-size: 300% 300%;
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            mask-composite: exclude;
+            opacity: 0;
+            transition: opacity 0.3s;
+            animation: gradientRotate 3s linear infinite;
+        }
+
+        @keyframes gradientRotate {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .grid-card:hover::before {
+            opacity: 1;
+        }
+
+        .grid-card:hover {
+            transform: translateY(-10px) scale(1.05);
+            box-shadow: 0 20px 40px rgba(102, 126, 234, 0.4);
+        }
+
+        .grid-card-logo {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.3), rgba(118, 75, 162, 0.3));
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .grid-card img {
+            max-width: 120px;
+            max-height: 120px;
+            object-fit: contain;
+        }
+
+        /* Scrollbar styling */
+        .grid-section::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .grid-section::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+        }
+
+        .grid-section::-webkit-scrollbar-thumb {
+            background: rgba(102, 126, 234, 0.5);
+            border-radius: 4px;
+        }
+
+        /* Loading */
+        .loading {
+            position: fixed;
+            inset: 0;
+            background: #0a0a0f;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            transition: opacity 0.5s, visibility 0.5s;
+        }
+
+        .loading.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .loader {
+            width: 50px;
+            height: 50px;
+            border: 3px solid rgba(255, 255, 255, 0.1);
+            border-top-color: #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="loading" id="loading">
+        <div class="loader"></div>
+    </div>
+
+    <div class="gradient-bg"></div>
+    <canvas id="particlesCanvas"></canvas>
+
+    <div class="main-container">
+        <!-- Logo Section -->
+        <div class="logo-section">
+            <img src="Pahli-nb.png" alt="Pahli AI" class="logo">
+        </div>
+
+        <!-- Featured Card Section -->
+        <div class="featured-section">
+            <a href="https://mila.pahli.nl" class="featured-card" target="_blank" rel="noopener">
+                <div class="featured-logo">
+                    <img src="milAI-nb.png" alt="Mila">
+                </div>
+                <div class="featured-content">
+                    <div class="tag">Playstore subscription</div>
+                    <div class="featured-title">AI Voice assistant for handsfree chat/email/Whatsapp/SMS</div>
+                    <ul class="features">
+                        <li>Voice driven</li>
+                        <li>AI empowered</li>
+                        <li>Chat with AI fully handsfree</li>
+                        <li>Talk in any language installed on your device and get spoken answers back</li>
+                        <li>Upload documents for context driven chats and messages</li>
+                    </ul>
+                </div>
+            </a>
+        </div>
+
+        <!-- Grid Section -->
+        <div class="grid-section">
+            <div class="cards-grid" id="cardsGrid">
+                <a href="https://pahliai.github.io/TemplateXL/" class="grid-card" data-app="templatexl">
+                    <div class="grid-card-logo">
+                        <img src="xl-templater-nb.PNG" alt="TemplateXL">
+                    </div>
+                </a>
+
+                <a href="https://pahliai.github.io/TourPloeg2025/" class="grid-card" data-app="tourploeg">
+                    <div class="grid-card-logo">
+                        <img src="tdf-nb.png" alt="Tourploeg">
+                    </div>
+                </a>
+
+                <a href="https://pahliai.github.io/Visuate/" class="grid-card" data-app="visuate">
+                    <div class="grid-card-logo">
+                        <img src="visuate-rb.png" alt="Visuate++">
+                    </div>
+                </a>
+
+                <a href="https://pahliai.github.io/Read2Me/" class="grid-card" data-app="read2me">
+                    <div class="grid-card-logo">
+                        <img src="read2me-nb.PNG" alt="Read2Me">
+                    </div>
+                </a>
+
+                <a href="https://pahliai.github.io/I2E_web/" class="grid-card" data-app="i2e">
+                    <div class="grid-card-logo">
+                        <img src="i2e-nb.png" alt="I2E">
+                    </div>
+                </a>
+
+                <a href="https://pahliai.github.io/TFB/" class="grid-card" data-app="tfb">
+                    <div class="grid-card-logo">
+                        <img src="logo_TFB_nb.png" alt="TFB">
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Particle system
+        class ParticleSystem {
+            constructor(canvas) {
+                this.canvas = canvas;
+                this.ctx = canvas.getContext('2d');
+                this.particles = [];
+                this.particleCount = 80;
+                this.mouse = { x: null, y: null, radius: 150 };
+
+                this.resize();
+                this.init();
+                this.animate();
+
+                window.addEventListener('resize', () => this.resize());
+                window.addEventListener('mousemove', (e) => {
+                    this.mouse.x = e.x;
+                    this.mouse.y = e.y;
+                });
+            }
+
+            resize() {
+                this.canvas.width = window.innerWidth;
+                this.canvas.height = window.innerHeight;
+            }
+
+            init() {
+                this.particles = [];
+                for (let i = 0; i < this.particleCount; i++) {
+                    this.particles.push({
+                        x: Math.random() * this.canvas.width,
+                        y: Math.random() * this.canvas.height,
+                        vx: (Math.random() - 0.5) * 0.5,
+                        vy: (Math.random() - 0.5) * 0.5,
+                        size: Math.random() * 2 + 1,
+                        baseX: 0,
+                        baseY: 0
+                    });
+                    this.particles[i].baseX = this.particles[i].x;
+                    this.particles[i].baseY = this.particles[i].y;
+                }
+            }
+
+            animate() {
+                this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+
+                this.particles.forEach((particle, i) => {
+                    let dx = this.mouse.x - particle.x;
+                    let dy = this.mouse.y - particle.y;
+                    let distance = Math.sqrt(dx * dx + dy * dy);
+                    let forceDirectionX = dx / distance;
+                    let forceDirectionY = dy / distance;
+                    let maxDistance = this.mouse.radius;
+                    let force = (maxDistance - distance) / maxDistance;
+                    let directionX = forceDirectionX * force * 3;
+                    let directionY = forceDirectionY * force * 3;
+
+                    if (distance < this.mouse.radius) {
+                        particle.x -= directionX;
+                        particle.y -= directionY;
+                    } else {
+                        if (particle.x !== particle.baseX) {
+                            let dx = particle.x - particle.baseX;
+                            particle.x -= dx / 10;
+                        }
+                        if (particle.y !== particle.baseY) {
+                            let dy = particle.y - particle.baseY;
+                            particle.y -= dy / 10;
+                        }
+                    }
+
+                    particle.x += particle.vx;
+                    particle.y += particle.vy;
+
+                    if (particle.x < 0) particle.x = this.canvas.width;
+                    if (particle.x > this.canvas.width) particle.x = 0;
+                    if (particle.y < 0) particle.y = this.canvas.height;
+                    if (particle.y > this.canvas.height) particle.y = 0;
+
+                    this.ctx.fillStyle = `rgba(102, 126, 234, ${0.5 + Math.random() * 0.5})`;
+                    this.ctx.beginPath();
+                    this.ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
+                    this.ctx.fill();
+
+                    for (let j = i + 1; j < this.particles.length; j++) {
+                        let dx = this.particles[j].x - particle.x;
+                        let dy = this.particles[j].y - particle.y;
+                        let distance = Math.sqrt(dx * dx + dy * dy);
+
+                        if (distance < 100) {
+                            this.ctx.strokeStyle = `rgba(102, 126, 234, ${0.2 * (1 - distance / 100)})`;
+                            this.ctx.lineWidth = 0.5;
+                            this.ctx.beginPath();
+                            this.ctx.moveTo(particle.x, particle.y);
+                            this.ctx.lineTo(this.particles[j].x, this.particles[j].y);
+                            this.ctx.stroke();
+                        }
+                    }
+                });
+
+                requestAnimationFrame(() => this.animate());
+            }
+        }
+
+        // Swap functionality
+        const featuredData = {
+            mila: {
+                url: 'https://mila.pahli.nl',
+                logo: 'milAI-nb.png',
+                tag: 'Playstore subscription',
+                title: 'AI Voice assistant for handsfree chat/email/Whatsapp/SMS',
+                features: [
+                    'Voice driven',
+                    'AI empowered',
+                    'Chat with AI fully handsfree',
+                    'Talk in any language installed on your device and get spoken answers back',
+                    'Upload documents for context driven chats and messages'
+                ]
+            },
+            templatexl: {
+                url: 'https://pahliai.github.io/TemplateXL/',
+                logo: 'xl-templater-nb.PNG',
+                title: 'Convert any complex excel into your standard template',
+                features: [
+                    'Upload any complex excel with data',
+                    'Sophisticated mapping via drag&drop',
+                    'Using excel functions for the most difficult mappings',
+                    'Save your mapping with a keyword that recognizes your file next time',
+                    'Repeatable mapping made easy',
+                    'Specific features added for specific company but excel mapping is generic'
+                ]
+            },
+            tourploeg: {
+                url: 'https://pahliai.github.io/TourPloeg2025/',
+                logo: 'tdf-nb.png',
+                title: 'Having fun with my colleagues with this special Milka chocolate prized game',
+                features: [
+                    'Specifically created for EJM Prodcuctions Milka challenge',
+                    'See each other\'s team setup',
+                    'Daily jerseys visible for the winners',
+                    'Daily updated rankings',
+                    'Looking back at last years winners'
+                ]
+            },
+            visuate: {
+                url: 'https://pahliai.github.io/Visuate/',
+                logo: 'visuate-rb.png',
+                tag: 'Company Specific',
+                title: 'Visual insights into your EquatePlus portfolio',
+                features: [
+                    'Upload (it all stays 100% local) your EquatePlus portfolio and sales',
+                    'Get visually attractive insights into your portfolio',
+                    'Timecharts, barcharts and piecharts',
+                    'Extensive pdf report download',
+                    'Note: Specifically created for a specific company. Reach out via GitHub in case you want it for your company'
+                ]
+            },
+            read2me: {
+                url: 'https://pahliai.github.io/Read2Me/',
+                logo: 'read2me-nb.PNG',
+                tag: 'Playground',
+                title: 'Upload files and let the app read it to you',
+                features: [
+                    'Upload (100% local) a pdf, docx or txt file',
+                    'App extracts text and cuts it into pieces',
+                    'Select your piece and the app will read it to you'
+                ]
+            },
+            i2e: {
+                url: 'https://pahliai.github.io/I2E_web/',
+                logo: 'i2e-nb.png',
+                tag: 'Company Specific',
+                title: 'Invoice to Excel converter',
+                features: [
+                    'Upload (100% local) your hours booked and SAP extract',
+                    'Upload any invoices received',
+                    'Detailed overview of costs per project, employee, etc',
+                    'Automatic invoice approval/rejection against booked hours and SAP data',
+                    'Fast insights in budget actuals'
+                ]
+            },
+            tfb: {
+                url: 'https://pahliai.github.io/TFB/',
+                logo: 'logo_TFB_nb.png',
+                tag: 'Playground',
+                title: 'AI driven tool for document management',
+                features: [
+                    'BYOK: Bring your Own Key (API key that is)',
+                    'Playing around with a tool to build document management flows',
+                    'This was the first version. Latest version is live @company',
+                    'Kept it here as a museum piece :-)'
+                ]
+            }
+        };
+
+        let currentFeatured = 'mila';
+
+        function swapFeatured(appKey) {
+            if (appKey === currentFeatured) {
+                window.open(featuredData[appKey].url, '_blank');
+                return;
+            }
+
+            const data = featuredData[appKey];
+            const featuredCard = document.querySelector('.featured-card');
+
+            featuredCard.href = data.url;
+            featuredCard.querySelector('.featured-logo img').src = data.logo;
+
+            const content = featuredCard.querySelector('.featured-content');
+            const tag = data.tag ? `<div class="tag">${data.tag}</div>` : '';
+            content.innerHTML = `
+                ${tag}
+                <div class="featured-title">${data.title}</div>
+                <ul class="features">
+                    ${data.features.map(f => `<li>${f}</li>`).join('')}
+                </ul>
+            `;
+
+            currentFeatured = appKey;
+        }
+
+        // Initialize
+        window.addEventListener('DOMContentLoaded', () => {
+            setTimeout(() => {
+                document.getElementById('loading').classList.add('hidden');
+            }, 500);
+
+            const canvas = document.getElementById('particlesCanvas');
+            new ParticleSystem(canvas);
+
+            // Add click handlers
+            document.querySelectorAll('.grid-card').forEach(card => {
+                card.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    swapFeatured(card.dataset.app);
+                });
+            });
+
+            document.querySelector('.featured-card').addEventListener('click', (e) => {
+                e.preventDefault();
+                window.open(featuredData[currentFeatured].url, '_blank');
+            });
+        });
+    </script>
+</body>
+</html>
